@@ -28,8 +28,10 @@ def modern_set(each):
 def search_card():
     global Wagic
     search_term = input("Search: ")
-    if search_term == "!quit":
-        exit()
+    if search_term == "!save":
+        return "save"
+    elif search_term == "!quit":
+        return "stop"
     cards = Card.where(name=search_term).all()
     formatted_results = []
 
@@ -86,19 +88,82 @@ def request_quantity(card_selected):
 
     return choice
 
+def create_deck():
+    global Wagic
+    current_decks = os.listdir(f"{Wagic}/Res/player/premade/")
+    current_decks.sort()
+    last_deck = current_decks[-1].replace("deck" ,"").replace(".txt", "")
+    this_deck = int(last_deck) + 1
+
+    write_lines = []
+    lands = []
+    creatures = []
+    permanents = [] # Covers enchantments and equipment
+    spells = [] # Covers instants and sorceries
+    deck_name = input("Deck name?\n>")
+    description = input("Description?\n>")
+
+    card_count = 0
+    while (True):
+        valid_card = search_card()
+        if (valid_card == "save"):
+            save(this_deck, deck_name,description,lands,creatures,spells,permanents)
+            break
+        if (valid_card == "stop"):
+            break
+
+        valid_quantity = request_quantity(valid_card)
+        card_count += valid_quantity
+        print(f"(Adding {valid_card[0]}...{card_count}/60)\n")
+
+        if ("Land" in valid_card[1]):
+            lands.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+        
+        elif ("Creature" in valid_card[1]):
+            creatures.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+        
+        elif (valid_card[1] == "Instant" or valid_card[1] == "Sorcery"):
+            spells.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+
+        else:
+            permanents.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+    
+def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
+    print(f"#{deck_name}")
+    print(f"#{description}\n")
+    for each in lands:
+        print(f"{each}")
+    print("")
+    for each in creatures:
+        print(f"{each}")
+    print("")
+    for each in spells:
+        print(f"{each}")
+    print("")
+    for each in permanents:
+        print(f"{each}")
+    print(f"Saving to deck{deck_number}.txt")
+
 def main():
-    states = ["menu","add deck","add cards"]
+    states = ["menu","new deck","edit deck"]
     state = 0
 
     while(True):
         if states[state] == "menu":
             print("Add new decks or edit one to add cards")
-            state = int(input("1. new deck"))
+            state = int(input("1. new deck\n>"))
             if not state in range(len(states)):
                 print("Not a valid menu option")
                 state = 0
-        valid_card = search_card()
-        valid_quantity = request_quantity(valid_card)
-        print(f"{valid_card[0]} ({valid_card[2]})   *{valid_quantity}")
+
+        if states[state] == "new deck":
+            create_deck()
+            state = 0
+        if states[state] == "edit deck":
+            print("Not implemented")
+            state = 0
+        #valid_card = search_card()
+        #valid_quantity = request_quantity(valid_card)
+        #print(f"{valid_card[0]} ({valid_card[2]})   *{valid_quantity}")
 
 main()
