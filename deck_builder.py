@@ -4,7 +4,7 @@ from datetime import datetime
 #import json
 #import pprint
 
-Wagic = "/home/laylong/Downloads/Wagic"
+Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
 
 def modern_set(each):
     global Wagic
@@ -92,8 +92,11 @@ def main():
 
     while(True):
         if states[state] == "menu":
-            print "Add new decks or edit one to add cards"
+            print("Add new decks or edit one to add cards")
             state = int(input("1. new deck"))
+            if not state in range(len(states)):
+                print("Not a valid menu option")
+                state = 0
         valid_card = search_card()
         valid_quantity = request_quantity(valid_card)
         print(f"{valid_card[0]} ({valid_card[2]})   *{valid_quantity}")
