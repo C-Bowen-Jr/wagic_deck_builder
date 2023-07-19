@@ -2,6 +2,8 @@
 
 This is a Magic the Gathering deck builder tool for Wololo's [Wagic](https://github.com/WagicProject/wagic) a homebrew MTG game. The decks are plain text and can also be used for personal archival means.
 
+/Wagic/User/profiles/<Name> is the default decks directory. Current code has this hardcoded to my username, will be adjusting this in a revision soon.
+
 ## Prerequisits
 
  - [Wagic](https://github.com/WagicProject/wagic): Have this installed somewhere locally on the computer you run this program on. It requires some files to check things not handled by API calls
@@ -12,6 +14,16 @@ This is a Magic the Gathering deck builder tool for Wololo's [Wagic](https://git
 ## Operations
 
 Currently being worked on
+
+## Considerations about deck building
+ - (*) denotes any set or maybe most recent set?
+ - \# is to comment out a line
+ - cards can be added directly via multiverse id
+ - each call of "#DESC:" in the description is a new line
+
+## For use as AI decks
+### HINT
+ - dontattackwith(<card name>)
 
 ## Troubleshooting
 

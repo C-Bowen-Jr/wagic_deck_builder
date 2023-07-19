@@ -5,6 +5,7 @@ from datetime import datetime
 #import pprint
 
 Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
+VERSION = "0.0.2"
 
 def modern_set(each):
     global Wagic
@@ -20,23 +21,31 @@ def modern_set(each):
             break
 
     set_datetime = datetime.strptime(set_date,"%Y-%m-%d")
-    modern_datetime = datetime.strptime("2006-01-01", "%Y-%m-%d")
+    modern_datetime = datetime.strptime("2004-01-01", "%Y-%m-%d")
     if set_datetime > modern_datetime:
         return True
     return False
 
 def search_card():
     global Wagic
+
+    # loop rather than return on stops to try again, except quit
     search_term = input("Search: ")
     if search_term == "!save":
         return "save"
     elif search_term == "!quit":
         return "stop"
+
+    if search_term in "Plains Forest Mountain Swamp Island":
+        # temporary fix, something isn't valid in the response on these from the API
+        return [search_term, "Basic Land","*"]
+
     cards = Card.where(name=search_term).all()
     formatted_results = []
 
     if len(cards) == 0:
-        return "No such card in Magic"
+        print("No such card in Magic")
+        return "stop"
 
     # TODO add validation for if card exists in Wagic
     cards[:] = [each for each in cards if (os.path.exists(f"{Wagic}/Res/sets/{each.set}"))]
@@ -45,8 +54,11 @@ def search_card():
 
     # Filter stage, make these a settings change later
     cards[:] = [each for each in cards if (modern_set(each))]
-    print("Filtered: Modern sets (2006+)")
+    print("Filtered: Modern sets (2004+)")
 
+    if len(cards) <= 0:
+        print("No results after filters")
+        return "stop"
 
     result_number = 0
     for each in cards:
@@ -90,12 +102,14 @@ def request_quantity(card_selected):
 
 def create_deck():
     global Wagic
-    current_decks = os.listdir(f"{Wagic}/Res/player/premade/")
+    current_decks = os.listdir(f"{Wagic}/User/profiles/Laylong")
+    current_decks.remove("options.txt")
+    current_decks.remove("tasks.dat")
+    current_decks.remove("stats")
     current_decks.sort()
     last_deck = current_decks[-1].replace("deck" ,"").replace(".txt", "")
     this_deck = int(last_deck) + 1
 
-    write_lines = []
     lands = []
     creatures = []
     permanents = [] # Covers enchantments and equipment
@@ -129,19 +143,32 @@ def create_deck():
             permanents.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
     
 def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
-    print(f"#{deck_name}")
-    print(f"#{description}\n")
+    global VERSION
+    write_lines = []
+
+    write_lines.append(f"#NAME:{deck_name}\n")
+    write_lines.append(f"#DESC:{description}.\n#DESC:\n#DESC:Constructed using WagicDeckBuilder v.{VERSION}.\n\n")
     for each in lands:
-        print(f"{each}")
-    print("")
+        write_lines.append(f"{each}\n")
+    if (len(lands) > 0): 
+        write_lines.append("\n")
     for each in creatures:
-        print(f"{each}")
-    print("")
+        write_lines.append(f"{each}\n")
+    if (len(creatures) > 0): 
+        write_lines.append("\n")
     for each in spells:
-        print(f"{each}")
-    print("")
+        write_lines.append(f"{each}\n")
+    if (len(spells) > 0): 
+        write_lines.append("\n")
     for each in permanents:
-        print(f"{each}")
+        write_lines.append(f"{each}\n")
+
+    save_file = open(f"{Wagic}/User/profiles/Laylong/deck{deck_number}.txt", "w")
+    print("-"*10)
+    for each in write_lines:
+        print(each)
+        save_file.write(each)
+    print("-"*10)
     print(f"Saving to deck{deck_number}.txt")
 
 def main():
@@ -151,8 +178,12 @@ def main():
     while(True):
         if states[state] == "menu":
             print("Add new decks or edit one to add cards")
-            state = int(input("1. new deck\n>"))
-            if not state in range(len(states)):
+            state = input("1. new deck\n>")
+            if state == "!quit":
+                exit()
+            else:
+                state = int(state)
+            if not state in range(1,len(states)):
                 print("Not a valid menu option")
                 state = 0
 
