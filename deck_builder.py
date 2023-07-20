@@ -1,11 +1,13 @@
 from mtgsdk import Card
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 #import json
 #import pprint
 
 Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
-VERSION = "0.0.2"
+VERSION = "0.0.3"
+load_dotenv()
 
 def modern_set(each):
     global Wagic
@@ -47,7 +49,6 @@ def search_card():
         print("No such card in Magic")
         return "stop"
 
-    # TODO add validation for if card exists in Wagic
     cards[:] = [each for each in cards if (os.path.exists(f"{Wagic}/Res/sets/{each.set}"))]
     print("Filtered: Wagic available")
     
@@ -102,7 +103,7 @@ def request_quantity(card_selected):
 
 def create_deck():
     global Wagic
-    current_decks = os.listdir(f"{Wagic}/User/profiles/Laylong")
+    current_decks = os.listdir(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}")
     current_decks.remove("options.txt")
     current_decks.remove("tasks.dat")
     current_decks.remove("stats")
@@ -123,24 +124,22 @@ def create_deck():
         if (valid_card == "save"):
             save(this_deck, deck_name,description,lands,creatures,spells,permanents)
             break
-        if (valid_card == "stop"):
-            break
+        elif (valid_card != "stop"):
+            valid_quantity = request_quantity(valid_card)
+            card_count += valid_quantity
+            print(f"(Adding {valid_card[0]}...{card_count}/60)\n")
 
-        valid_quantity = request_quantity(valid_card)
-        card_count += valid_quantity
-        print(f"(Adding {valid_card[0]}...{card_count}/60)\n")
-
-        if ("Land" in valid_card[1]):
-            lands.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+            if ("Land" in valid_card[1]):
+                lands.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
         
-        elif ("Creature" in valid_card[1]):
-            creatures.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+            elif ("Creature" in valid_card[1]):
+                creatures.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
         
-        elif (valid_card[1] == "Instant" or valid_card[1] == "Sorcery"):
-            spells.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+            elif (valid_card[1] == "Instant" or valid_card[1] == "Sorcery"):
+                spells.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
 
-        else:
-            permanents.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+            else:
+                permanents.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
     
 def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     global VERSION
@@ -163,12 +162,12 @@ def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     for each in permanents:
         write_lines.append(f"{each}\n")
 
-    save_file = open(f"{Wagic}/User/profiles/Laylong/deck{deck_number}.txt", "w")
-    print("-"*10)
+    save_file = open(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}/deck{deck_number}.txt", "w")
+    print(10 * "-")
     for each in write_lines:
         print(each)
         save_file.write(each)
-    print("-"*10)
+    print(10 * "-")
     print(f"Saving to deck{deck_number}.txt")
 
 def main():
