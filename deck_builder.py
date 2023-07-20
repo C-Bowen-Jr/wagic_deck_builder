@@ -165,7 +165,7 @@ def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     save_file = open(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}/deck{deck_number}.txt", "w")
     print(10 * "-")
     for each in write_lines:
-        print(each)
+        print(each[:-1]) # cut only the last newline
         save_file.write(each)
     print(10 * "-")
     print(f"Saving to deck{deck_number}.txt")
