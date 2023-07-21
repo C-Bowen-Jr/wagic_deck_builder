@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 #import pprint
 
 Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
-VERSION = "0.0.3"
+VERSION = "1.0.4"
 load_dotenv()
 
 def modern_set(each):
@@ -127,40 +127,49 @@ def create_deck():
         elif (valid_card != "stop"):
             valid_quantity = request_quantity(valid_card)
             card_count += valid_quantity
+            quantity_buffer = 32 - len(valid_card[0])
             print(f"(Adding {valid_card[0]}...{card_count}/60)\n")
 
             if ("Land" in valid_card[1]):
-                lands.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+                lands.append(f"{valid_card[0]} ({valid_card[2]}) {quantity_buffer*' '}*{valid_quantity}")
         
             elif ("Creature" in valid_card[1]):
-                creatures.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+                creatures.append(f"{valid_card[0]} ({valid_card[2]}) {quantity_buffer*' '}*{valid_quantity}")
         
             elif (valid_card[1] == "Instant" or valid_card[1] == "Sorcery"):
-                spells.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+                spells.append(f"{valid_card[0]} ({valid_card[2]}) {quantity_buffer*' '}*{valid_quantity}")
 
             else:
-                permanents.append(f"{valid_card[0]} ({valid_card[2]})    *{valid_quantity}")
+                permanents.append(f"{valid_card[0]} ({valid_card[2]}) {quantity_buffer*' '}*{valid_quantity}")
     
 def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     global VERSION
     write_lines = []
 
     write_lines.append(f"#NAME:{deck_name}\n")
-    write_lines.append(f"#DESC:{description}.\n#DESC:\n#DESC:Constructed using WagicDeckBuilder v.{VERSION}.\n\n")
-    for each in lands:
-        write_lines.append(f"{each}\n")
-    if (len(lands) > 0): 
-        write_lines.append("\n")
-    for each in creatures:
-        write_lines.append(f"{each}\n")
+    write_lines.append(f"#DESC:{description}\n#DESC:\n#DESC:Constructed using WagicDeckBuilder v.{VERSION}.\n\n")
+    
     if (len(creatures) > 0): 
+        write_lines.append("#/--- CREATURES ---/\n")
+        for each in creatures:
+            write_lines.append(f"{each}\n")
         write_lines.append("\n")
-    for each in spells:
-        write_lines.append(f"{each}\n")
+    if (len(permanents) > 0): 
+        write_lines.append("#/--- PERMANENTS---/\n")
+        for each in permanents:
+            write_lines.append(f"{each}\n")
+        write_lines.append("\n")
     if (len(spells) > 0): 
+        write_lines.append("#/---   SPELLS   ---/\n")
+        for each in spells:
+            write_lines.append(f"{each}\n")
         write_lines.append("\n")
-    for each in permanents:
-        write_lines.append(f"{each}\n")
+    if (len(lands) > 0): 
+        write_lines.append("#/---   LANDS   ---/\n")
+        for each in lands:
+            write_lines.append(f"{each}\n")
+        write_lines.append("\n")
+
 
     save_file = open(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}/deck{deck_number}.txt", "w")
     print(10 * "-")
