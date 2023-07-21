@@ -8,7 +8,7 @@ This is a Magic the Gathering deck builder tool for Wololo's [Wagic](https://git
 
  - [Wagic](https://github.com/WagicProject/wagic): Have this installed somewhere locally on the computer you run this program on. It requires some files to check things not handled by API calls
  - [Python 3.^](https://www.python.org/): At least python 3, although not tested for any specific release
- - - python-dotenv: Run ```pip install python-dotenv```
+   - python-dotenv: Run ```pip install python-dotenv```
  - [MTGSDK](https://docs.magicthegathering.io/#documentationsdks) for Python: A wrapper of the API calls
 
 
