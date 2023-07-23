@@ -178,14 +178,20 @@ def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
             write_lines.append(f"{each}\n")
         write_lines.append("\n")
 
-
-    save_file = open(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}/deck{deck_number}.txt", "w")
+    # TODO: save_location options between A:B, relative/Decks or Wagic/Path
+    save_choice = os.environ.get('SAVE_LOCATION') # relative | wagic, load from .env
+    if save_choice == "relative":
+        save_file = open(f"./Decks/{deck_name}.txt", "w")
+        print(f"Saving to local as {deck_name}.txt")
+    else:
+        save_file = open(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}/deck{deck_number}.txt", "w")
+        print(f"Saving to Wagic as {deck_number}.txt")
     print(10 * "-")
     for each in write_lines:
         print(each[:-1]) # cut only the last newline
         save_file.write(each)
     print(10 * "-")
-    print(f"Saving to deck{deck_number}.txt")
+    print(f"Save complete")
 
 def main():
     global VERSION

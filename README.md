@@ -19,6 +19,8 @@ Currently being worked on. Changes are likely, but currently works as a minimum 
 
 Type "1" to select the create a deck option. Fill out a name and small description. At it's current state, basic lands are returning something in the API call that causes a crash. So please type the full name and capitalize the first letter. ie ```Plains```,```Forrest```,```Swamp```, etc. The fix is bypassing the API call and thus also the set lookup. The set marker that will be saved is the wildcard.
 
+Alternative saving location can be set by setting a .env variable ```SAVE_LOCATION=relative|wagic```. No variable, or really anything but "relative" will result in the default Wagic location.
+
 ## Considerations about deck building
  - (*) denotes any set or maybe most recent set?
  - \# is to comment out a line
