@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 from consolemenu import *
-from consolemenu.items import *
+#from consolemenu.items import *
 #import json
 #import pprint
 
@@ -197,11 +197,11 @@ def main():
     global VERSION
     menu = ConsoleMenu("Wagic Deck Buildler",f"WDB v[{VERSION}]\nSelect an option")
 
-    new_deck = MenuItem("Create a new deck")
-    edit_deck = MenuItem("Edit a deck")
+    #new_deck = Items.MenuItem("Create a new deck")
+    #edit_deck = Items.MenuItem("Edit a deck")
 
-    menu.append_item(new_deck)
-    menu.append_item(edit_deck)
+    #menu.append_item(new_deck)
+    #menu.append_item(edit_deck)
 
     #menu.show()
 
