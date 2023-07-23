@@ -147,7 +147,7 @@ def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     write_lines = []
 
     write_lines.append(f"#NAME:{deck_name}\n")
-    write_lines.append(f"#DESC:{description}\n#DESC:\n#DESC:Constructed using WagicDeckBuilder v.{VERSION}.\n\n")
+    write_lines.append(f"#DESC:{description}\n#DESC:\n#DESC:Constructed using WagicDeckBuilder v.{VERSION}\n\n")
     
     if (len(creatures) > 0): 
         write_lines.append("#/--- CREATURES ---/\n")
