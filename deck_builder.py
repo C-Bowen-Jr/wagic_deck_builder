@@ -2,12 +2,15 @@ from mtgsdk import Card
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+from consolemenu import *
+from consolemenu.items import *
 #import json
 #import pprint
 
-Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
-VERSION = "1.0.4"
 load_dotenv()
+Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
+print(Wagic)
+VERSION = "1.0.5"
 
 def modern_set(each):
     global Wagic
@@ -106,10 +109,14 @@ def create_deck():
     current_decks = os.listdir(f"{Wagic}/User/profiles/{os.environ.get('WAGIC_PLAYER')}")
     current_decks.remove("options.txt")
     current_decks.remove("tasks.dat")
+    current_decks.remove("collection.dat")
     current_decks.remove("stats")
-    current_decks.sort()
-    last_deck = current_decks[-1].replace("deck" ,"").replace(".txt", "")
-    this_deck = int(last_deck) + 1
+    if current_decks:
+        current_decks.sort()
+        last_deck = current_decks[-1].replace("deck" ,"").replace(".txt", "")
+        this_deck = int(last_deck) + 1
+    else:
+        this_deck = 1
 
     lands = []
     creatures = []
@@ -180,6 +187,17 @@ def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     print(f"Saving to deck{deck_number}.txt")
 
 def main():
+    global VERSION
+    menu = ConsoleMenu("Wagic Deck Buildler",f"WDB v[{VERSION}]\nSelect an option")
+
+    new_deck = MenuItem("Create a new deck")
+    edit_deck = MenuItem("Edit a deck")
+
+    menu.append_item(new_deck)
+    menu.append_item(edit_deck)
+
+    #menu.show()
+
     states = ["menu","new deck","edit deck"]
     state = 0
 
