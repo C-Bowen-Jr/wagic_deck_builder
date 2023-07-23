@@ -52,8 +52,9 @@ def search_card():
         print("No such card in Magic")
         return "stop"
 
-    cards[:] = [each for each in cards if (os.path.exists(f"{Wagic}/Res/sets/{each.set}"))]
-    print("Filtered: Wagic available")
+    #cards[:] = [each for each in cards if (os.path.exists(f"{Wagic}/Res/sets/{each.set}"))]
+    #print("Filtered: Wagic available")
+    #print("Wagic filter skipped")
     
 
     # Filter stage, make these a settings change later
