@@ -2,7 +2,7 @@ from mtgsdk import Card
 import os
 from datetime import datetime
 from dotenv import load_dotenv
-from consolemenu import *
+import consolemenu
 #from consolemenu.items import *
 #import json
 #import pprint
@@ -15,7 +15,7 @@ VERSION = "1.0.6"
 def modern_set(each):
     # Perhaps better approach than raw date comparison, exclusionary list method
     exclusion_list = ["LEA","LEB","2ED","3ED","4ED","5ED","6ED","7ED","8ED","9ED","ARN","ATQ","LEG","DRK","FEM","ICE","HML","ALL","MIR","VIS","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","POR","PO2","P3K","S99","S00","CHR","ATH","BRB","DKM","UGL","UNH","UST","UND","UNF"]
-    if each.set in exlusion_list:
+    if each.set in exclusion_list:
         return False
     return True
 
@@ -189,7 +189,7 @@ def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
 
 def main():
     global VERSION
-    menu = ConsoleMenu("Wagic Deck Buildler",f"WDB v[{VERSION}]\nSelect an option")
+    menu = consolemenu.ConsoleMenu("Wagic Deck Buildler",f"WDB v[{VERSION}]\nSelect an option")
 
     #new_deck = Items.MenuItem("Create a new deck")
     #edit_deck = Items.MenuItem("Edit a deck")
