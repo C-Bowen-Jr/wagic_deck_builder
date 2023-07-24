@@ -17,12 +17,25 @@ This is a Magic the Gathering deck builder tool for Wololo's [Wagic](https://git
 
 Currently being worked on. Changes are likely, but currently works as a minimum function.
 
-Type "1" to select the create a deck option. Fill out a name and small description. At it's current state, basic lands are returning something in the API call that causes a crash. So please type the full name and capitalize the first letter. ie ```Plains```,```Forrest```,```Swamp```, etc. The fix is bypassing the API call and thus also the set lookup. The set marker that will be saved is the wildcard.
+### Menu
+In the menu screen, type the number option and hit enter. To exit the program, type ```!quit```
+
+### Deck Setup
+There are 2 questions to this screen. First, type out a name for the deck and hit enter. Then type out a description for the deck and hit enter.
+
+### Card Search
+Search cards by name. Capilization doesn't matter except on Basic Land cards. Searches don't need to be fully spelled out, but it helps to narrow down the returned results. Just typing "she" looking for "Sheoldred, Whispering One" is going to give all prints of that card, plus all prints of any other card that contains "she" anywhere in the text of the card's name.
+
+Once a card has been found, it will print out the results after some filters. Now select which result to add, or type ```!none``` to return to another search. If you chose one of the results, then answer how many copies you wish to add. Default limit is 1-4, but certain cards like Basic Lands and Relentless Rats have no limit.
+
+While being prompted to search, you may either type ```!save``` or ```!quit```. This will save or return to the main menu, respectively.
+
+Side note in regards to Basic Lands. Until I fix this issue, Basic Lands need to be typed in verbatum as "Plains","Forest","Swamp","Mountain", or "Island". They will default to 10E (tenth edition). This is arbitrarily chosen.
 
 Alternative saving location can be set by setting a .env variable ```SAVE_LOCATION=relative|wagic```. No variable, or really anything but "relative" will result in the default Wagic location.
 
 ## Considerations about deck building
- - (*) denotes any set or maybe most recent set?
+ - (*) denotes default set (perhaps 2ED?)
  - \# is to comment out a line
  - cards can be added directly via multiverse id
  - each call of "#DESC:" in the description is a new line

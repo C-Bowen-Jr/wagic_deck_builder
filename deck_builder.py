@@ -44,7 +44,7 @@ def search_card():
 
     if search_term in "Plains Forest Mountain Swamp Island":
         # temporary fix, something isn't valid in the response on these from the API
-        return [search_term, "Basic Land","*"]
+        return [search_term, "Basic Land","10E"]
 
     cards = Card.where(name=search_term).all()
     formatted_results = []
