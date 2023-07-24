@@ -51,7 +51,7 @@ def search_card():
 
     if len(cards) == 0:
         print("No such card in Magic")
-        return "stop"
+        return "none"
 
     #cards[:] = [each for each in cards if (os.path.exists(f"{Wagic}/Res/sets/{each.set}"))]
     #print("Filtered: Wagic available")
@@ -64,7 +64,7 @@ def search_card():
 
     if len(cards) <= 0:
         print("No results after filters")
-        return "stop"
+        return "none"
 
     result_number = 0
     for each in cards:
@@ -79,6 +79,8 @@ def search_card():
     choice = -1
     while not choice in range(len(formatted_results)):
         choice = input(f"Which result: (0-{len(formatted_results)-1})")
+        if choice == "!none":
+            return "none"
         try:
             choice = int(choice)
         except:
@@ -133,7 +135,11 @@ def create_deck():
         if (valid_card == "save"):
             save(this_deck, deck_name,description,lands,creatures,spells,permanents)
             break
-        elif (valid_card != "stop"):
+        elif (valid_card == "stop"):
+            break
+        elif (valid_card == "none"):
+            pass
+        else:
             valid_quantity = request_quantity(valid_card)
             card_count += valid_quantity
             quantity_buffer = 32 - len(valid_card[0])
@@ -150,8 +156,6 @@ def create_deck():
 
             else:
                 permanents.append(f"{valid_card[0]} ({valid_card[2]}) {quantity_buffer*' '}*{valid_quantity}")
-        else:
-            break
     
 def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     global VERSION
