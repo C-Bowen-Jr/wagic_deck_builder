@@ -10,27 +10,14 @@ from consolemenu import *
 load_dotenv()
 Wagic = f"{os.environ.get('HOME')}/Downloads/Wagic"
 print(Wagic)
-VERSION = "1.0.5"
+VERSION = "1.0.6"
 
 def modern_set(each):
-    global Wagic
-    try:
-        set_info = open(f"{Wagic}/Res/sets/{each.set}/_cards.dat")
-    except:
-        print(f"Failed to find/open '{each.set}/_cards.dat")
+    # Perhaps better approach than raw date comparison, exclusionary list method
+    exclusion_list = ["LEA","LEB","2ED","3ED","4ED","5ED","6ED","7ED","8ED","9ED","ARN","ATQ","LEG","DRK","FEM","ICE","HML","ALL","MIR","VIS","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","POR","PO2","P3K","S99","S00","CHR","ATH","BRB","DKM","UGL","UNH","UST","UND","UNF"]
+    if each.set in exlusion_list:
         return False
-
-    for line in set_info:
-        if "year=" in line:
-            set_date = line[5:15]
-            each.set_year = line[5:9]
-            break
-
-    set_datetime = datetime.strptime(set_date,"%Y-%m-%d")
-    modern_datetime = datetime.strptime("2004-01-01", "%Y-%m-%d")
-    if set_datetime > modern_datetime:
-        return True
-    return False
+    return True
 
 def search_card():
     global Wagic
