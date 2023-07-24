@@ -18,6 +18,7 @@ def modern_set(each):
         set_info = open(f"{Wagic}/Res/sets/{each.set}/_cards.dat")
     except:
         print(f"Failed to find/open '{each.set}/_cards.dat")
+        return False
 
     for line in set_info:
         if "year=" in line:
@@ -149,6 +150,8 @@ def create_deck():
 
             else:
                 permanents.append(f"{valid_card[0]} ({valid_card[2]}) {quantity_buffer*' '}*{valid_quantity}")
+        else:
+            break
     
 def save(deck_number, deck_name,description,lands,creatures,spells,permanents):
     global VERSION
