@@ -1,4 +1,4 @@
-from mtgsdk import Card
+from mtgsdk import Card, Set
 import os
 from datetime import datetime
 from dotenv import load_dotenv
@@ -15,6 +15,10 @@ VERSION = "1.0.6"
 def modern_set(each):
     # Perhaps better approach than raw date comparison, exclusionary list method
     exclusion_list = ["LEA","LEB","2ED","3ED","4ED","5ED","6ED","7ED","8ED","9ED","ARN","ATQ","LEG","DRK","FEM","ICE","HML","ALL","MIR","VIS","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","POR","PO2","P3K","S99","S00","CHR","ATH","BRB","DKM","UGL","UNH","UST","UND","UNF"]
+
+    from_set = Set.find(f"{each.set}")
+    each.set_year = from_set.release_date[:4]
+
     if each.set in exclusion_list:
         return False
     return True
@@ -42,7 +46,7 @@ def search_card():
 
     #cards[:] = [each for each in cards if (os.path.exists(f"{Wagic}/Res/sets/{each.set}"))]
     #print("Filtered: Wagic available")
-    #print("Wagic filter skipped")
+    print("Wagic filter skipped")
     
 
     # Filter stage, make these a settings change later
@@ -52,6 +56,11 @@ def search_card():
     if len(cards) <= 0:
         print("No results after filters")
         return "none"
+
+    elif len(cards) == 1:
+        print(f"Only one result: {cards[0].name} ({cards[0].set})")
+        return [cards[0].name,cards[0].types[0],cards[0].set]
+        print(f"{cards[0]}")
 
     result_number = 0
     for each in cards:
@@ -209,7 +218,10 @@ def main():
             if state == "!quit":
                 exit()
             else:
-                state = int(state)
+                try:
+                    state = int(state)
+                except:
+                    print("Not a number")
             if not state in range(1,len(states)):
                 print("Not a valid menu option")
                 state = 0
