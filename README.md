@@ -12,6 +12,9 @@ This is a Magic the Gathering deck builder tool for Wololo's [Wagic](https://git
    - consolemenu: Run ```pip install consolemenu```
  - [MTGSDK](https://docs.magicthegathering.io/#documentationsdks) for Python: A wrapper of the API calls
 
+## Preview
+
+![screenshot of version 1.0.6](deck_builder_v-1-0-6.png "Example of V.1.0.6")
 
 ## Operations
 
@@ -39,6 +42,10 @@ Alternative saving location can be set by setting a .env variable ```SAVE_LOCATI
  - \# is to comment out a line
  - cards can be added directly via multiverse id
  - each call of "#DESC:" in the description is a new line
+
+ ## Example of a deck file
+
+![screenshot of a deck file](example_deck_file.png "screenshot of a deck file")
 
 ## For use as AI decks
 ### HINT

@@ -14,7 +14,7 @@ VERSION = "1.0.6"
 
 def modern_set(each):
     # Perhaps better approach than raw date comparison, exclusionary list method
-    exclusion_list = ["LEA","LEB","2ED","3ED","4ED","5ED","6ED","7ED","8ED","9ED","ARN","ATQ","LEG","DRK","FEM","ICE","HML","ALL","MIR","VIS","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","POR","PO2","P3K","S99","S00","CHR","ATH","BRB","DKM","UGL","UNH","UST","UND","UNF"]
+    exclusion_list = ["LEA","LEB","2ED","3ED","4ED","5ED","6ED","7ED","8ED","9ED","ARN","ATQ","LEG","DRK","FEM","ICE","HML","ALL","MIR","VIS","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","POR","PO2","P3K","S99","S00","CHR","ATH","BRB","DKM","UGL","UNH","UST","UND","UNF","SUM","PWOS","PTC","O90P","FBB","CEI","CED","4BB"]
 
     from_set = Set.find(f"{each.set}")
     each.set_year = from_set.release_date[:4]
